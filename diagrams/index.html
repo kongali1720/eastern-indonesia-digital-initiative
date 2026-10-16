@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Project Diagrams | Eastern Indonesia Digital Initiative</title>
+<style>
+:root{color-scheme:dark;--bg:#0b1020;--panel:#131b2e;--line:#293550;--text:#edf2ff;--muted:#a6b3cb;--accent:#a3e635}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font:15px/1.55 system-ui,Segoe UI,sans-serif}
+header{padding:30px max(18px,calc((100% - 1200px)/2));background:#101a30;border-bottom:1px solid var(--line)}
+.kicker{color:var(--accent);font-weight:800;letter-spacing:.13em;text-transform:uppercase;font-size:11px}
+h1{font-size:clamp(27px,4vw,40px);line-height:1.15;margin:10px 0}
+p{color:var(--muted)}
+main{max-width:1240px;margin:auto;padding:24px 16px 60px}
+nav{display:flex;gap:9px;flex-wrap:wrap;margin:18px 0}
+a,button{color:var(--accent)}
+nav a,button{border:1px solid #3a4b6b;border-radius:8px;padding:8px 12px;text-decoration:none;background:#17223a;cursor:pointer;font:inherit;font-size:13px}
+nav a:hover,button:hover{background:#253655}
+.diagram{background:var(--panel);border:1px solid var(--line);border-radius:12px;margin:18px 0;overflow:hidden}
+.diagram-head{padding:16px 18px;border-bottom:1px solid var(--line)}
+.diagram-head h2{font-size:18px;margin:0}
+.diagram-head p{font-size:13px;margin:5px 0 0}
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.diagram-body{padding:18px;overflow:auto;min-height:130px}
+.mermaid{min-width:max-content;color:var(--text)}
+.mermaid svg{max-width:none;height:auto}
+.state{font-size:13px;color:var(--muted)}
+.error{color:#ffb4ab}
+footer{color:var(--muted);font-size:12px;margin-top:28px}
+</style>
+</head>
+<body>
+<header>
+  <div class="kicker">Project Architecture · Visual Documentation</div>
+  <h1>Eastern Indonesia Digital Initiative</h1>
+  <p>Interactive Mermaid diagrams for ecosystem architecture, implementation dependencies, education, financial control, investment planning and governance.</p>
+  <nav>
+    <a href="../">← Main masterplan</a>
+    <a href="https://github.com/kongali1720/eastern-indonesia-digital-initiative/tree/main/diagrams">Source files on GitHub</a>
+  </nav>
+</header>
+<main>
+  <p id="status" class="state" aria-live="polite">Loading diagrams…</p>
+  <div id="gallery"></div>
+  <footer>Diagrams are rendered from the repository's .mmd source files. Review the source and validate assumptions before using diagrams for investment or approval decisions.</footer>
+</main>
+<script type="module">
+import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+
+mermaid.initialize({
+  startOnLoad:false,
+  securityLevel:'strict',
+  theme:'dark',
+  flowchart:{useMaxWidth:false,htmlLabels:true},
+  sequence:{useMaxWidth:false},
+  er:{useMaxWidth:false}
+});
+
+const diagrams=[
+  {file:'integrated-ecosystem-architecture.mmd',title:'Integrated Ecosystem Architecture',desc:'The integrated view of education, data center, infrastructure and regional digital development.'},
+  {file:'ecosystem-dependency-map.mmd',title:'Ecosystem Dependency Map',desc:'Dependencies and prerequisites across the major workstreams.'},
+  {file:'education-ecosystem.mmd',title:'Education Ecosystem',desc:'Education and skills development ecosystem.'},
+  {file:'education-and-fs-roadmap.mmd',title:'Education and Feasibility Roadmap',desc:'Roadmap for education and feasibility planning.'},
+  {file:'financial-control-flow.mmd',title:'Financial Control Flow',desc:'Financial planning, control and reporting relationships.'},
+  {file:'master-investment-budget.mmd',title:'Master Investment Budget',desc:'Investment planning structure and budget relationships.'},
+  {file:'project-governance-and-assurance.mmd',title:'Project Governance and Assurance',desc:'Project controls, governance and assurance structure.'}
+];
+
+const gallery=document.getElementById('gallery');
+const status=document.getElementById('status');
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+let rendered=0,failed=0;
+
+for(const d of diagrams){
+  const section=document.createElement('section');
+  section.className='diagram';
+  section.innerHTML=`<div class="diagram-head"><h2>${esc(d.title)}</h2><p>${esc(d.desc)}</p><div class="actions"><a href="./${encodeURIComponent(d.file)}" target="_blank" rel="noopener">View source</a><button type="button" data-action="download">Download SVG</button></div><p class="state" data-state>Loading source…</p></div><div class="diagram-body"><div class="mermaid">flowchart TD\n A[Loading diagram]</div></div>`;
+  gallery.appendChild(section);
+
+  try{
+    const response=await fetch('./'+encodeURIComponent(d.file));
+    if(!response.ok)throw new Error('HTTP '+response.status);
+    const source=await response.text();
+    const target=section.querySelector('.mermaid');
+    target.textContent=source;
+    target.removeAttribute('data-processed');
+    await mermaid.run({nodes:[target]});
+    section.querySelector('[data-state]').textContent='Rendered from '+d.file;
+    const svg=target.querySelector('svg');
+    section.querySelector('[data-action="download"]').addEventListener('click',()=>{
+      if(!svg)return;
+      const clone=svg.cloneNode(true);
+      clone.setAttribute('xmlns','http://www.w3.org/2000/svg');
+      const blob=new Blob([new XMLSerializer().serializeToString(clone)],{type:'image/svg+xml;charset=utf-8'});
+      const url=URL.createObjectURL(blob);
+      const a=document.createElement('a');a.href=url;a.download=d.file.replace(/\.mmd$/,'')+'.svg';a.click();
+      setTimeout(()=>URL.revokeObjectURL(url),1000);
+    });
+    rendered++;
+  }catch(err){
+    failed++;
+    const state=section.querySelector('[data-state]');
+    state.classList.add('error');
+    state.textContent='Could not render: '+d.file+' ('+err.message+'). Check GitHub Pages deployment and browser network access.';
+    section.querySelector('.mermaid').textContent='Diagram unavailable. Use View source to inspect the Mermaid source.';
+  }
+}
+status.textContent=`${rendered} of ${diagrams.length} diagrams rendered${failed?`; ${failed} failed to load`:''}.`;
+</script>
+</body>
+</html>
