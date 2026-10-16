@@ -707,3 +707,13 @@ delivery, monitor risks, document decisions, and improve accountability.
 
 The framework remains proposed until roles, approval authorities,
 risk tolerances, and reporting lines are formally approved.
+
+## Executive Control Dashboard
+
+- Dashboard prototype: [`dashboard/index.html`](dashboard/index.html)
+- Dashboard governance and usage: [`docs/28-executive-control-dashboard/`](docs/28-executive-control-dashboard/)
+- CSV source templates: [`templates/executive-dashboard/`](templates/executive-dashboard/)
+
+The dashboard is a local CSV-driven prototype. Populate and verify the source
+registers before using its outputs for management decisions. It is not a live
+financial integration or evidence of confirmed funding.

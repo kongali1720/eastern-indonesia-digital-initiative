@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Executive Control Dashboard | Eastern Indonesia Initiative</title>
+<style>
+:root{color-scheme:dark;--bg:#0b1020;--panel:#131b2e;--line:#293550;--text:#edf2ff;--muted:#9aa9c5;--accent:#9ef01a;--blue:#79b8ff}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:14px/1.5 system-ui,-apple-system,Segoe UI,sans-serif}
+header{padding:28px clamp(16px,4vw,48px);border-bottom:1px solid var(--line);background:#0e1628}
+.eyebrow{color:var(--accent);font-size:11px;font-weight:800;letter-spacing:.16em;text-transform:uppercase}
+h1{font-size:clamp(25px,4vw,38px);line-height:1.12;margin:9px 0}
+p{color:var(--muted)}header p{max-width:850px;margin-bottom:0}
+main{max-width:1500px;margin:auto;padding:24px clamp(12px,3vw,36px) 48px}
+.notice{border:1px solid #715b27;background:#302716;color:#ffe4a3;border-radius:10px;padding:13px 15px;margin-bottom:22px}
+.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+.card,.panel{background:var(--panel);border:1px solid var(--line);border-radius:13px;padding:18px;min-width:0}
+.card .label{color:var(--muted);font-size:12px}.value{font-size:clamp(21px,3vw,30px);font-weight:750;margin-top:7px;overflow-wrap:anywhere}.sub{font-size:12px;color:var(--muted);margin-top:5px}
+section{margin-top:26px}h2{font-size:19px;margin:0 0 13px}h3{font-size:15px;margin:0 0 10px}
+.panels{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.upload{display:flex;flex-wrap:wrap;gap:10px;align-items:center;border:1px dashed #425171;border-radius:9px;padding:12px;margin:10px 0 16px}
+.upload label{font-weight:650}.upload input{max-width:100%;color:var(--muted)}
+.small{font-size:12px;color:var(--muted)}
+.status{color:var(--blue);font-size:12px;overflow-wrap:anywhere}
+.tablewrap{overflow:auto;max-width:100%;border:1px solid var(--line);border-radius:8px}
+table{border-collapse:collapse;width:100%;font-size:12px;white-space:nowrap}
+th,td{text-align:left;padding:9px 11px;border-bottom:1px solid var(--line);max-width:260px;overflow:hidden;text-overflow:ellipsis}
+th{background:#1a2540;color:#d9e4ff;position:sticky;top:0}
+td{color:#d4deef}tr:last-child td{border-bottom:0}.empty{padding:20px;color:var(--muted);text-align:center}
+footer{margin-top:28px;color:var(--muted);font-size:12px}
+button{background:var(--accent);color:#17200c;font-weight:750;border:0;border-radius:8px;padding:9px 13px;cursor:pointer}
+@media(max-width:900px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.panels{grid-template-columns:1fr}}
+@media(max-width:450px){.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header>
+  <div class="eyebrow">Executive Office · Portfolio Oversight</div>
+  <h1>Executive Control Dashboard</h1>
+  <p>Eastern Indonesia Digital Education &amp; Data Center Initiative · Consolidated view of delivery, financial control, funding, risk and executive decisions.</p>
+</header>
+<main>
+  <div class="notice"><strong>Prototype / data integrity:</strong> No live data is preloaded. Select the current CSV registers below. Blank or missing data is reported as unavailable, not as zero or confirmed progress.</div>
+  <div class="grid">
+    <div class="card"><div class="label">Workstreams loaded</div><div class="value" id="workstreams">—</div><div class="sub" id="progress">Progress unavailable</div></div>
+    <div class="card"><div class="label">Approved budget</div><div class="value" id="budget">—</div><div class="sub" id="spend">Actual expenditure unavailable</div></div>
+    <div class="card"><div class="label">Funding received</div><div class="value" id="funding">—</div><div class="sub" id="fundingnote">Requires verified register</div></div>
+    <div class="card"><div class="label">Open risks</div><div class="value" id="risks">—</div><div class="sub" id="decisions">Pending decisions unavailable</div></div>
+  </div>
+
+  <section class="panel">
+    <h2>Load reporting registers</h2>
+    <p class="small">Choose the matching CSV template or a populated CSV with the same column headers. Files are processed locally in this browser; there is no automatic connection to the repository or any external system.</p>
+    <div id="uploads"></div>
+    <button id="clear">Clear loaded data</button>
+    <span id="loadstatus" class="status" aria-live="polite"></span>
+  </section>
+
+  <section>
+    <h2>Portfolio register views</h2>
+    <div class="panels" id="tables"></div>
+  </section>
+  <footer>Internal planning prototype · Not a financial statement, bank confirmation, investment offer, audit opinion or proof of funding. Confirm source evidence and approvals before executive use.</footer>
+</main>
+<script>
+const specs=[
+ {key:"workstreams",title:"Workstream register",file:"workstream-register.csv",cols:["workstream_id","workstream","owner","status","planned_progress_pct","actual_progress_pct","baseline_start","forecast_finish","blocker"]},
+ {key:"budget",title:"Budget control",file:"budget-control.csv",cols:["cost_code","workstream","budget_idr","committed_idr","actual_idr","forecast_at_completion_idr"]},
+ {key:"funding",title:"Funding register",file:"funding-register.csv",cols:["funding_id","source","amount_idr","status","expected_date","verified_by"]},
+ {key:"risks",title:"Enterprise risk register",file:"risk-register.csv",cols:["risk_id","category","description","likelihood","impact","status","owner","due_date"]},
+ {key:"decisions",title:"Executive decision log",file:"decision-log.csv",cols:["decision_id","decision","owner","status","due_date"]},
+ {key:"kpis",title:"KPI register",file:"kpi-register.csv",cols:["kpi_id","kpi_name","unit","target","actual","status","reporting_period","owner"]}
+];
+const data={};
+const $=id=>document.getElementById(id);
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+function parseCSV(text){
+ const rows=[];let row=[],field="",quoted=false;
+ text=text.replace(/^\uFEFF/,"");
+ for(let i=0;i<text.length;i++){
+  const c=text[i],n=text[i+1];
+  if(quoted){if(c==='"'&&n==='"'){field+='"';i++}else if(c==='"')quoted=false;else field+=c}
+  else if(c==='"')quoted=true;
+  else if(c===","){row.push(field);field=""}
+  else if(c==="\n"){row.push(field);if(row.some(v=>v.trim()!==""))rows.push(row);row=[];field=""}
+  else if(c!=="\r")field+=c;
+ }
+ row.push(field);if(row.some(v=>v.trim()!==""))rows.push(row);
+ if(!rows.length)return {headers:[],records:[]};
+ const headers=rows[0].map(v=>v.trim());
+ return {headers,records:rows.slice(1).map(r=>Object.fromEntries(headers.map((h,i)=>[h,(r[i]??"").trim()])))};
+}
+function num(v){if(v===undefined||v===null||String(v).trim()==="")return null;const n=Number(v);return Number.isFinite(n)?n:null}
+function sum(rows,key){const vals=rows.map(r=>num(r[key])).filter(v=>v!==null);return vals.length?vals.reduce((a,b)=>a+b,0):null}
+function money(v){return v===null?"Unavailable":new Intl.NumberFormat("id-ID",{style:"currency",currency:"IDR",maximumFractionDigits:0,notation:"compact"}).format(v)}
+function set(id,value){$(id).textContent=value}
+function renderUploads(){
+ $("uploads").innerHTML=specs.map(s=>`<div class="upload"><label for="f-${s.key}">${esc(s.title)}</label><input id="f-${s.key}" type="file" accept=".csv,text/csv"><span class="small">${esc(s.file)}</span><span class="status" id="s-${s.key}">${data[s.key]?data[s.key].records.length+" rows loaded":"Not loaded"}</span></div>`).join("");
+ specs.forEach(s=>{$("f-"+s.key).addEventListener("change",async e=>{
+  const file=e.target.files[0];if(!file)return;
+  try{
+   const parsed=parseCSV(await file.text());
+   const missing=s.cols.filter(c=>!parsed.headers.includes(c));
+   if(missing.length){set("s-"+s.key,"Rejected: missing "+missing.join(", "));return}
+   data[s.key]=parsed;
+   set("s-"+s.key,parsed.records.length+" rows loaded");
+   set("loadstatus"," Updated "+s.title+".");
+   renderDashboard();
+  }catch(err){set("s-"+s.key,"Could not read file")}
+ })});
+}
+function renderTables(){
+ $("tables").innerHTML=specs.map(s=>{
+  const d=data[s.key];
+  let body=!d||!d.records.length?`<tr><td colspan="99" class="empty">${d?"No data rows in this file.":"Upload "+esc(s.file)+" to display this register."}</td></tr>`:
+   d.records.map(r=>`<tr>${d.headers.map(h=>`<td title="${esc(r[h])}">${esc(r[h])||"—"}</td>`).join("")}</tr>`).join("");
+  const headers=d?d.headers:s.cols;
+  return `<div class="panel"><h3>${esc(s.title)}</h3><div class="small">${d?d.records.length+" data rows":"Waiting for CSV upload"}</div><div class="tablewrap" style="margin-top:12px"><table><thead><tr>${headers.map(h=>`<th>${esc(h)}</th>`).join("")}</tr></thead><tbody>${body}</tbody></table></div></div>`;
+ }).join("");
+}
+function renderDashboard(){
+ const w=data.workstreams?.records||[],b=data.budget?.records||[],f=data.funding?.records||[],r=data.risks?.records||[],d=data.decisions?.records||[];
+ set("workstreams",data.workstreams?w.length:"—");
+ const actual=w.map(x=>num(x.actual_progress_pct)).filter(x=>x!==null);
+ set("progress",actual.length?("Average reported progress: "+(actual.reduce((a,x)=>a+x,0)/actual.length).toFixed(1)+"% · "+actual.length+" reported"): "Progress unavailable");
+ set("budget",data.budget?money(sum(b,"budget_idr")):"—");
+ set("spend",data.budget?("Actual expenditure: "+money(sum(b,"actual_idr"))+" · Commitment: "+money(sum(b,"committed_idr"))):"Actual expenditure unavailable");
+ const received=f.filter(x=>["received"].includes((x.status||"").toLowerCase()));
+ set("funding",data.funding?money(sum(received,"amount_idr")):"—");
+ set("fundingnote",data.funding?(received.length+" row(s) marked received; reconcile supporting evidence"):"Requires verified register");
+ const open=r.filter(x=>["open","mitigating"].includes((x.status||"").toLowerCase())).length;
+ set("risks",data.risks?String(open):"—");
+ const pending=d.filter(x=>["pending","in_review","deferred"].includes((x.status||"").toLowerCase())).length;
+ set("decisions",data.decisions?pending+" pending / in-review / deferred decisions":"Pending decisions unavailable");
+ renderTables();
+}
+$("clear").addEventListener("click",()=>{for(const k of Object.keys(data))delete data[k];set("loadstatus"," Loaded data cleared.");renderUploads();renderDashboard()});
+renderUploads();renderDashboard();
+</script>
+</body>
+</html>
