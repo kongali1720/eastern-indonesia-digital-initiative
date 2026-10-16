@@ -24,9 +24,20 @@ Do not aggregate different currencies without a documented conversion method.
 Use explicit statuses such as `proposed`, `under_review`, `conditionally_approved`,
 `confirmed`, `received`, `rejected` or `cancelled`.
 
-`confirmed` should be used only when evidence and authorization have been checked.
-`received` requires evidence of receipt and reconciliation. A verbal promise or
-indicative term sheet alone is not received funding.
+`confirmed` should be used only when documentary evidence and authorized
+approval have been checked. Confirmation does not mean the funds are available
+as cash.
+
+`received` requires evidence of receipt and completed reconciliation. Record
+the evidence in `evidence_reference` and `verified_date`; record the
+reconciliation artifact in `reconciliation_reference` and its completion date
+in `reconciliation_date`. These references must point to controlled records
+that an authorized reviewer can access.
+
+A verbal promise, indicative term sheet, proposed investment, or conditional
+approval is not received funding. Do not report it as cash received or cash
+available. An amount with missing evidence or reconciliation must be flagged
+as incomplete and excluded from the verified-received total.
 
 ## Risk register
 

@@ -45,6 +45,7 @@ button{background:var(--accent);color:#17200c;font-weight:750;border:0;border-ra
     <div class="card"><div class="label">Workstreams loaded</div><div class="value" id="workstreams">—</div><div class="sub" id="progress">Progress unavailable</div></div>
     <div class="card"><div class="label">Verified approved budget</div><div class="value" id="budget">—</div><div class="sub" id="spend">Actual expenditure unavailable</div></div>
     <div class="card"><div class="label">Funding received</div><div class="value" id="funding">—</div><div class="sub" id="fundingnote">Requires verified register</div></div>
+    <div class="card"><div class="label">Funding data quality</div><div class="value" id="fundingquality">—</div><div class="sub" id="fundingqualitynote">Load funding register to evaluate</div></div>
     <div class="card"><div class="label">Open risks</div><div class="value" id="risks">—</div><div class="sub" id="decisions">Pending decisions unavailable</div></div>
     <div class="card"><div class="label">Readiness requirements loaded</div><div class="value" id="readiness">—</div><div class="sub" id="readinessnote">Readiness data unavailable</div></div>
   </div>
@@ -67,7 +68,7 @@ button{background:var(--accent);color:#17200c;font-weight:750;border:0;border-ra
 const specs=[
  {key:"workstreams",title:"Workstream register",file:"workstream-register.csv",cols:["workstream_id","workstream","owner","status","planned_progress_pct","actual_progress_pct","baseline_start","forecast_finish","blocker"]},
  {key:"budget",title:"Budget control",file:"budget-control.csv",cols:["cost_code","workstream","budget_idr","committed_idr","actual_idr","forecast_at_completion_idr","approval_status","approval_reference"]},
- {key:"funding",title:"Funding register",file:"funding-register.csv",cols:["funding_id","source","amount_idr","status","expected_date","verified_by","evidence_reference","verified_date"]},
+ {key:"funding",title:"Funding register",file:"funding-register.csv",cols:["funding_id","source","amount_idr","status","expected_date","verified_by","evidence_reference","verified_date","reconciliation_reference","reconciliation_date"]},
  {key:"risks",title:"Enterprise risk register",file:"risk-register.csv",cols:["risk_id","category","description","likelihood","impact","status","owner","due_date"]},
  {key:"decisions",title:"Executive decision log",file:"decision-log.csv",cols:["decision_id","decision","owner","status","due_date"]},
  {key:"kpis",title:"KPI register",file:"kpi-register.csv",cols:["kpi_id","kpi_name","unit","target","actual","status","reporting_period","owner"]},
@@ -200,13 +201,26 @@ function renderDashboard(){
  set("budget",data.budget?money(sum(approved,"budget_idr")):"—");
  set("spend",data.budget?("Actual expenditure: "+money(sum(b,"actual_idr"))+" · Commitment: "+money(sum(b,"committed_idr"))):"Actual expenditure unavailable");
  const received=f.filter(x=>
-  (x.status||"").trim().toLowerCase()==="received" &&
+  (x.status||"").trim().toLowerCase()==="received"
+ );
+ const verifiedReceived=received.filter(x=>
   (x.verified_by||"").trim()!=="" &&
   (x.evidence_reference||"").trim()!=="" &&
-  (x.verified_date||"").trim()!==""
+  (x.verified_date||"").trim()!=="" &&
+  (x.reconciliation_reference||"").trim()!=="" &&
+  (x.reconciliation_date||"").trim()!==""
  );
- set("funding",data.funding?money(sum(received,"amount_idr")):"—");
- set("fundingnote",data.funding?(received.length+" row(s) marked received with verification fields; independently confirm evidence"):"Requires verified register");
+ const unverifiedReceived=received.length-verifiedReceived.length;
+ set("funding",data.funding?money(sum(verifiedReceived,"amount_idr")):"—");
+ set("fundingnote",data.funding?
+  verifiedReceived.length+" received row(s) with verification and reconciliation · "+
+  unverifiedReceived+" incomplete; excluded from total":
+  "Requires verified register");
+ set("fundingquality",data.funding?String(unverifiedReceived):"—");
+ set("fundingqualitynote",data.funding?
+  (unverifiedReceived===0?"No incomplete received-funding records detected":
+   "Investigate missing evidence, verification or reconciliation fields"):
+  "Load funding register to evaluate");
  const open=r.filter(x=>["open","mitigating"].includes((x.status||"").toLowerCase())).length;
  set("risks",data.risks?String(open):"—");
  const pending=d.filter(x=>["pending","in_review","deferred"].includes((x.status||"").toLowerCase())).length;
