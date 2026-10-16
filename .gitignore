@@ -1,0 +1,25 @@
+# Operating system
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Editors
+.vscode/
+.idea/
+
+# Temporary and backup files
+*.tmp
+*.bak
+*.swp
+*~
+README.before-budget-recovery.md
+README.md.backup-*
+
+# Secrets and local environment
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+credentials.json
+secrets/

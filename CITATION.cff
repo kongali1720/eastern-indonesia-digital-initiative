@@ -1,0 +1,15 @@
+cff-version: 1.2.0
+message: "If you use or reference this project, please cite it as described below."
+title: "Eastern Indonesia Digital Education & Data Center Initiative"
+type: software
+authors:
+  - name: "Kongali1720"
+    affiliation: "Project initiator"
+version: "0.1.0"
+date-released: "2026-10-16"
+repository-code: "https://github.com/kongali1720/eastern-indonesia-digital-initiative"
+abstract: >-
+  A preliminary initiative exploring digital education, technology skills,
+  higher-education pathways, and regional data center infrastructure in
+  Eastern Indonesia. Project concepts, budgets, and implementation plans
+  remain subject to feasibility assessment and formal approval.
