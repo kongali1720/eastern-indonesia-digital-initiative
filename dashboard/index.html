@@ -44,6 +44,7 @@ button{background:var(--accent);color:#17200c;font-weight:750;border:0;border-ra
   <div class="grid">
     <div class="card"><div class="label">Workstreams loaded</div><div class="value" id="workstreams">—</div><div class="sub" id="progress">Progress unavailable</div></div>
     <div class="card"><div class="label">Verified approved budget</div><div class="value" id="budget">—</div><div class="sub" id="spend">Actual expenditure unavailable</div></div>
+    <div class="card"><div class="label">Budget variance</div><div class="value" id="budgetvariance">—</div><div class="sub" id="budgetvariancenote">Requires approved budget and forecast</div></div>
     <div class="card"><div class="label">Funding received</div><div class="value" id="funding">—</div><div class="sub" id="fundingnote">Requires verified register</div></div>
     <div class="card"><div class="label">Funding data quality</div><div class="value" id="fundingquality">—</div><div class="sub" id="fundingqualitynote">Load funding register to evaluate</div></div>
     <div class="card"><div class="label">Open risks</div><div class="value" id="risks">—</div><div class="sub" id="decisions">Pending decisions unavailable</div></div>
@@ -135,6 +136,7 @@ function validateRecords(spec,parsed){
   risks:["likelihood","impact"],
   kpis:["target","actual"]
  };
+ const seenCostCodes=new Set();
  for(let i=0;i<parsed.records.length;i++){
   const r=parsed.records[i],line=i+2;
   for(const col of numeric[spec.key]||[]){
@@ -151,6 +153,22 @@ function validateRecords(spec,parsed){
    if(["likelihood","impact"].includes(col)&&
       (!Number.isInteger(value)||value<1||value>5))
     throw new Error("Row "+line+": "+col+" must be an integer from 1 to 5");
+  }
+  if(spec.key==="budget"){
+   const code=(r.cost_code||"").trim();
+   if(!code)throw new Error("Row "+line+": cost_code is required");
+   if(seenCostCodes.has(code))
+    throw new Error("Row "+line+": duplicate cost_code "+code);
+   seenCostCodes.add(code);
+   if((r.approval_status||"").trim().toLowerCase()==="approved"){
+    if(!(r.approval_reference||"").trim())
+     throw new Error("Row "+line+": approved budget requires approval_reference");
+    for(const col of ["budget_idr","forecast_at_completion_idr"]){
+     const value=num(r[col]);
+     if(value===null||value<0)
+      throw new Error("Row "+line+": approved budget requires valid "+col);
+    }
+   }
   }
  }
 }
@@ -198,8 +216,17 @@ function renderDashboard(){
   (x.approval_status||"").trim().toLowerCase()==="approved" &&
   (x.approval_reference||"").trim()!==""
  );
- set("budget",data.budget?money(sum(approved,"budget_idr")):"—");
+ const approvedBudget=sum(approved,"budget_idr");
+ const forecast=sum(approved,"forecast_at_completion_idr");
+ set("budget",data.budget?money(approvedBudget):"—");
  set("spend",data.budget?("Actual expenditure: "+money(sum(b,"actual_idr"))+" · Commitment: "+money(sum(b,"committed_idr"))):"Actual expenditure unavailable");
+ const variance=approvedBudget!==null&&forecast!==null?approvedBudget-forecast:null;
+ set("budgetvariance",data.budget?money(variance):"—");
+ set("budgetvariancenote",!data.budget?"Load budget register to evaluate":
+  variance===null?"Unavailable: approved budget or forecast is incomplete":
+  variance<0?"Forecast exceeds approved budget":
+  variance>0?"Forecast is below approved budget":
+  "Forecast matches approved budget");
  const received=f.filter(x=>
   (x.status||"").trim().toLowerCase()==="received"
  );

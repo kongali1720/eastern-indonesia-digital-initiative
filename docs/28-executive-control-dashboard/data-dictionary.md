@@ -55,3 +55,13 @@ as incomplete and excluded from the verified-received total.
 - `target` and `actual`: numeric values using the unit declared in `unit`.
 - Keep each KPI's unit and reporting period consistent when comparing values.
 - Define source evidence and calculation method in the KPI governance record.
+
+## Budget variance
+
+- `budgetvariance` equals the sum of `budget_idr` for approved budget rows with an approval reference, minus the sum of `forecast_at_completion_idr` for those same rows.
+- A positive result means the forecast is below the approved budget.
+- A negative result means the forecast exceeds the approved budget.
+- Zero means the forecast matches the approved budget.
+- The variance is unavailable when the required approved-budget or forecast values are missing or invalid.
+- Forecast at completion is a management estimate. It is not the same as actual expenditure, committed expenditure, or confirmed cash received.
+- Compare only like-for-like approved scope and reporting periods.
