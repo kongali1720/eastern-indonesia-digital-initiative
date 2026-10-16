@@ -1,0 +1,15 @@
+flowchart TD
+    A["Project Governance"] --> B["Market Research"]
+    B --> C["SMA IT Feasibility"]
+    B --> D["Course Institution Feasibility"]
+    C --> E["Legal, Site and Financial Review"]
+    D --> F["Course Licensing and Operating Review"]
+    E --> G{"SMA Go / No-Go"}
+    F --> H{"Course Institution Go / No-Go"}
+    G --> I["SMA Implementation"]
+    H --> J["Course Institution Implementation"]
+    I --> K["Monitoring and Evaluation"]
+    J --> K
+    K --> L["Future University Feasibility"]
+    A --> M["Separate Data Center FS"]
+    M --> N{"Independent Investment Decision"}
