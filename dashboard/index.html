@@ -46,6 +46,7 @@ button{background:var(--accent);color:#17200c;font-weight:750;border:0;border-ra
     <div class="card"><div class="label">Verified approved budget</div><div class="value" id="budget">—</div><div class="sub" id="spend">Actual expenditure unavailable</div></div>
     <div class="card"><div class="label">Funding received</div><div class="value" id="funding">—</div><div class="sub" id="fundingnote">Requires verified register</div></div>
     <div class="card"><div class="label">Open risks</div><div class="value" id="risks">—</div><div class="sub" id="decisions">Pending decisions unavailable</div></div>
+    <div class="card"><div class="label">Readiness requirements loaded</div><div class="value" id="readiness">—</div><div class="sub" id="readinessnote">Readiness data unavailable</div></div>
   </div>
 
   <section class="panel">
@@ -69,7 +70,8 @@ const specs=[
  {key:"funding",title:"Funding register",file:"funding-register.csv",cols:["funding_id","source","amount_idr","status","expected_date","verified_by","evidence_reference","verified_date"]},
  {key:"risks",title:"Enterprise risk register",file:"risk-register.csv",cols:["risk_id","category","description","likelihood","impact","status","owner","due_date"]},
  {key:"decisions",title:"Executive decision log",file:"decision-log.csv",cols:["decision_id","decision","owner","status","due_date"]},
- {key:"kpis",title:"KPI register",file:"kpi-register.csv",cols:["kpi_id","kpi_name","unit","target","actual","status","reporting_period","owner"]}
+ {key:"kpis",title:"KPI register",file:"kpi-register.csv",cols:["kpi_id","kpi_name","unit","target","actual","status","reporting_period","owner"]},
+ {key:"readiness",title:"Project readiness & evidence",file:"project-readiness-register.csv",cols:["readiness_id","workstream","requirement","status","owner","evidence_reference","evidence_date","verified_by","verified_date","approval_reference","next_action","due_date","notes"]}
 ];
 const data={};
 const $=id=>document.getElementById(id);
@@ -119,7 +121,7 @@ function renderTables(){
  }).join("");
 }
 function renderDashboard(){
- const w=data.workstreams?.records||[],b=data.budget?.records||[],f=data.funding?.records||[],r=data.risks?.records||[],d=data.decisions?.records||[];
+ const w=data.workstreams?.records||[],b=data.budget?.records||[],f=data.funding?.records||[],r=data.risks?.records||[],d=data.decisions?.records||[],pr=data.readiness?.records||[];
  set("workstreams",data.workstreams?w.length:"—");
  const actual=w.map(x=>num(x.actual_progress_pct)).filter(x=>x!==null);
  set("progress",actual.length?("Average reported progress: "+(actual.reduce((a,x)=>a+x,0)/actual.length).toFixed(1)+"% · "+actual.length+" reported"): "Progress unavailable");
@@ -141,6 +143,25 @@ function renderDashboard(){
  set("risks",data.risks?String(open):"—");
  const pending=d.filter(x=>["pending","in_review","deferred"].includes((x.status||"").toLowerCase())).length;
  set("decisions",data.decisions?pending+" pending / in-review / deferred decisions":"Pending decisions unavailable");
+
+ const verified=pr.filter(x=>
+  ["verified","approved"].includes((x.status||"").trim().toLowerCase()) &&
+  (x.evidence_reference||"").trim()!=="" &&
+  (x.verified_by||"").trim()!=="" &&
+  (x.verified_date||"").trim()!==""
+ );
+ const approved=pr.filter(x=>
+  (x.status||"").trim().toLowerCase()==="approved" &&
+  (x.approval_reference||"").trim()!==""
+ );
+ const blocked=pr.filter(x=>
+  (x.status||"").trim().toLowerCase()==="blocked"
+ );
+ set("readiness",data.readiness?String(pr.length):"—");
+ set("readinessnote",data.readiness?
+  verified.length+" marked verified · "+approved.length+" marked approved · "+blocked.length+" blocked":
+  "Readiness data unavailable");
+
  renderTables();
 }
 $("clear").addEventListener("click",()=>{for(const k of Object.keys(data))delete data[k];set("loadstatus"," Loaded data cleared.");renderUploads();renderDashboard()});
