@@ -77,38 +77,106 @@ const data={};
 const $=id=>document.getElementById(id);
 const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 function parseCSV(text){
- const rows=[];let row=[],field="",quoted=false;
- text=text.replace(/^\uFEFF/,"");
+ const rows=[];
+ let row=[],field="",quoted=false;
+ text=String(text).replace(/^\uFEFF/,"");
  for(let i=0;i<text.length;i++){
   const c=text[i],n=text[i+1];
-  if(quoted){if(c==='"'&&n==='"'){field+='"';i++}else if(c==='"')quoted=false;else field+=c}
-  else if(c==='"')quoted=true;
-  else if(c===","){row.push(field);field=""}
-  else if(c==="\n"){row.push(field);if(row.some(v=>v.trim()!==""))rows.push(row);row=[];field=""}
-  else if(c!=="\r")field+=c;
+  if(quoted){
+   if(c==='"'&&n==='"'){field+='"';i++}
+   else if(c==='"')quoted=false;
+   else field+=c;
+  }else if(c==='"'){
+   if(field!=="")throw new Error("Unexpected quote in unquoted field");
+   quoted=true;
+  }else if(c===","){
+   row.push(field);field="";
+  }else if(c==="\n"){
+   row.push(field);
+   if(row.some(v=>v.trim()!==""))rows.push(row);
+   row=[];field="";
+  }else if(c!=="\r"){
+   field+=c;
+  }
  }
- row.push(field);if(row.some(v=>v.trim()!==""))rows.push(row);
- if(!rows.length)return {headers:[],records:[]};
+ if(quoted)throw new Error("Unclosed quoted CSV field");
+ row.push(field);
+ if(row.some(v=>v.trim()!==""))rows.push(row);
+ if(!rows.length)throw new Error("CSV is empty");
  const headers=rows[0].map(v=>v.trim());
- return {headers,records:rows.slice(1).map(r=>Object.fromEntries(headers.map((h,i)=>[h,(r[i]??"").trim()])))};
+ if(headers.some(h=>!h))throw new Error("CSV contains an empty header");
+ if(new Set(headers).size!==headers.length)
+  throw new Error("CSV contains duplicate headers");
+ const records=rows.slice(1).map((r,i)=>{
+  if(r.length!==headers.length)
+   throw new Error("Row "+(i+2)+" has "+r.length+
+     " columns; expected "+headers.length);
+  return Object.fromEntries(headers.map((h,j)=>[h,r[j].trim()]));
+ });
+ return {headers,records};
 }
-function num(v){if(v===undefined||v===null||String(v).trim()==="")return null;const n=Number(v);return Number.isFinite(n)?n:null}
-function sum(rows,key){const vals=rows.map(r=>num(r[key])).filter(v=>v!==null);return vals.length?vals.reduce((a,b)=>a+b,0):null}
+function num(v){
+ if(v===undefined||v===null||String(v).trim()==="")return null;
+ const n=Number(v);
+ return Number.isFinite(n)?n:null;
+}
+function sum(rows,key){
+ if(!rows.length)return null;
+ const vals=rows.map(r=>num(r[key]));
+ if(vals.some(v=>v===null||v<0))return null;
+ return vals.reduce((a,b)=>a+b,0);
+}
+function validateRecords(spec,parsed){
+ const numeric={
+  workstreams:["planned_progress_pct","actual_progress_pct"],
+  budget:["budget_idr","committed_idr","actual_idr","forecast_at_completion_idr"],
+  funding:["amount_idr"],
+  risks:["likelihood","impact"],
+  kpis:["target","actual"]
+ };
+ for(let i=0;i<parsed.records.length;i++){
+  const r=parsed.records[i],line=i+2;
+  for(const col of numeric[spec.key]||[]){
+   const raw=r[col];
+   if(raw==="")continue;
+   const value=num(raw);
+   if(value===null)throw new Error("Row "+line+": "+col+" must be numeric");
+   if(["budget_idr","committed_idr","actual_idr",
+       "forecast_at_completion_idr","amount_idr"].includes(col)&&value<0)
+    throw new Error("Row "+line+": "+col+" cannot be negative");
+   if(["planned_progress_pct","actual_progress_pct"].includes(col)&&
+      (value<0||value>100))
+    throw new Error("Row "+line+": "+col+" must be between 0 and 100");
+   if(["likelihood","impact"].includes(col)&&
+      (!Number.isInteger(value)||value<1||value>5))
+    throw new Error("Row "+line+": "+col+" must be an integer from 1 to 5");
+  }
+ }
+}
 function money(v){return v===null?"Unavailable":new Intl.NumberFormat("id-ID",{style:"currency",currency:"IDR",maximumFractionDigits:0,notation:"compact"}).format(v)}
 function set(id,value){$(id).textContent=value}
 function renderUploads(){
  $("uploads").innerHTML=specs.map(s=>`<div class="upload"><label for="f-${s.key}">${esc(s.title)}</label><input id="f-${s.key}" type="file" accept=".csv,text/csv"><span class="small">${esc(s.file)}</span><span class="status" id="s-${s.key}">${data[s.key]?data[s.key].records.length+" rows loaded":"Not loaded"}</span></div>`).join("");
  specs.forEach(s=>{$("f-"+s.key).addEventListener("change",async e=>{
   const file=e.target.files[0];if(!file)return;
+  const status=$("s-"+s.key);
+  status.textContent="Validating "+file.name+"…";
   try{
    const parsed=parseCSV(await file.text());
    const missing=s.cols.filter(c=>!parsed.headers.includes(c));
-   if(missing.length){set("s-"+s.key,"Rejected: missing "+missing.join(", "));return}
+   if(missing.length)throw new Error("Missing columns: "+missing.join(", "));
+   validateRecords(s,parsed);
    data[s.key]=parsed;
-   set("s-"+s.key,parsed.records.length+" rows loaded");
-   set("loadstatus"," Updated "+s.title+".");
+   status.textContent=parsed.records.length+" rows loaded · validated";
+   set("loadstatus"," Loaded and validated "+s.title+".");
    renderDashboard();
-  }catch(err){set("s-"+s.key,"Could not read file")}
+  }catch(err){
+   const reason=err instanceof Error?err.message:"Could not read file";
+   status.textContent="Rejected: "+reason+
+    (data[s.key]?" · previous dataset retained":"");
+   set("loadstatus"," Upload rejected for "+s.title+": "+reason+
+    (data[s.key]?". Previous dataset retained.":"."));
+  }
  })});
 }
 function renderTables(){
@@ -150,7 +218,7 @@ function renderDashboard(){
   (x.verified_by||"").trim()!=="" &&
   (x.verified_date||"").trim()!==""
  );
- const approved=pr.filter(x=>
+ const readinessApproved=pr.filter(x=>
   (x.status||"").trim().toLowerCase()==="approved" &&
   (x.approval_reference||"").trim()!==""
  );
@@ -159,7 +227,7 @@ function renderDashboard(){
  );
  set("readiness",data.readiness?String(pr.length):"—");
  set("readinessnote",data.readiness?
-  verified.length+" marked verified · "+approved.length+" marked approved · "+blocked.length+" blocked":
+  verified.length+" marked verified · "+readinessApproved.length+" marked approved · "+blocked.length+" blocked":
   "Readiness data unavailable");
 
  renderTables();
