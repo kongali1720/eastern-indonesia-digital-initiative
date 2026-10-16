@@ -1,0 +1,16 @@
+assumption_id,category,assumption_name,value,unit,scenario,confidence,status,source,source_date,owner,notes
+FIN-001,Budget,Total master investment envelope,2700000000000,IDR,All,Low,Preliminary,Existing master investment budget,2026-10-16,Finance,Unverified planning assumption; not secured funding
+FIN-002,Budget,Data center allocation,1100000000000,IDR,All,Low,Preliminary,Existing master investment budget,2026-10-16,Finance,Included within total envelope; do not add twice
+FIN-003,Schedule,Project implementation duration,,Years,Base,Low,Open,,,Project Management,Set after feasibility and phasing
+FIN-004,CAPEX,Annual construction cost escalation,,Percent,Base,Low,Open,,,Finance,Obtain relevant professional estimate
+FIN-005,OPEX,Annual operating cost escalation,,Percent,Base,Low,Open,,,Finance,Document basis and period
+FIN-006,Funding,Verified committed funding,,IDR,All,Unknown,Open,,,Finance,Count only documented and verified commitments
+FIN-007,Education,Student capacity,,Students,Base,Low,Open,,,Education Lead,Validate demand and approved design
+FIN-008,Education,Tuition and training fee assumptions,,IDR per student,Base,Low,Open,,,Education Lead,Apply only where applicable and validated
+FIN-009,Data Center,Usable capacity,,Units,Base,Low,Open,,,Data Center Lead,Define capacity measure after technical design
+FIN-010,Data Center,Utilization rate,,Percent,Base,Low,Open,,,Data Center Lead,Require customer demand evidence
+FIN-011,Data Center,Average realized price,,IDR per unit,Base,Low,Open,,,Commercial Lead,Validate pricing and service mix
+FIN-012,Funding,Debt interest rate,,Percent,Base,Unknown,Open,,,Finance,Use only after lender terms are evidenced
+FIN-013,Funding,Equity contribution,,IDR,All,Unknown,Open,,,Finance,Do not treat discussions as committed funds
+FIN-014,Contingency,Contingency basis,,Percent,Base,Low,Open,,,Project Management,Set after risk and design maturity review
+FIN-015,Finance,Discount rate,,Percent,Base,Unknown,Open,,,Finance,Document methodology before NPV analysis

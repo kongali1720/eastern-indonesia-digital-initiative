@@ -1,0 +1,24 @@
+flowchart TD
+    A["Master Investment Budget"]
+    B["Workstream CAPEX and OPEX Plans"]
+    C["Source Evidence and Assumptions"]
+    D["Finance Reconciliation"]
+    E{"Within Approved Budget?"}
+    F["Document Variance and Funding Gap"]
+    G["Governance Review and Approval"]
+    H["Cash Flow and Scenario Model"]
+    I["Actual vs Budget Reporting"]
+    J["Corrective Action and Decision Log"]
+
+    A --> D
+    B --> D
+    C --> D
+    D --> E
+    E -->|Yes| H
+    E -->|No| F
+    F --> G
+    G -->|Approved revision| H
+    G -->|Not approved| B
+    H --> I
+    I --> J
+    J --> D

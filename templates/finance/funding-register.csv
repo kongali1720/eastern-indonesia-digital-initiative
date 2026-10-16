@@ -1,0 +1,5 @@
+funding_id,funding_source,funding_type,proposed_amount_idr,committed_amount_idr,received_amount_idr,remaining_committed_idr,evidence_reference,conditions,expected_date,status,restriction,owner,notes
+FUND-001,To be identified,Equity,,,,,,,,Proposed,,Finance,No commitment should be recorded without documentary evidence
+FUND-002,To be identified,Debt,,,,,,,,Proposed,,Finance,Require lender terms and repayment schedule
+FUND-003,To be identified,Grant or donation,,,,,,,,Proposed,,Finance,Track restrictions and reporting obligations
+FUND-004,To be identified,Operating receipts,,,,,,,,Forecast only,,Finance,Not investment funding; validate demand and collection assumptions

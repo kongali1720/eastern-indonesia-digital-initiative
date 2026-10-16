@@ -1,0 +1,9 @@
+scenario,variable,base_assumption,downside_assumption,upside_assumption,impact_metric,calculation_method,evidence,status,notes
+Downside,CAPEX variance,,,,Total project cost,Recalculate all affected cost lines,Pending,Open,Do not apply arbitrary percentages without review
+Downside,Implementation delay,,,,Peak funding requirement,Shift CAPEX and funding cash-flow timing,Pending,Open,Reflect permit procurement and construction dependencies
+Downside,Operating cost escalation,,,,Annual cash deficit,Recalculate annual OPEX,Pending,Open,Use supported cost escalation assumptions
+Downside,Education enrollment,,,,Education operating result,Recalculate validated student and fee assumptions,Pending,Open,Include capacity and affordability constraints
+Downside,Data center utilization,,,,Data center operating result,Recalculate utilization and revenue against fixed and variable costs,Pending,Open,Require customer demand evidence
+Downside,Funding delay,,,,Minimum cash balance,Shift funding receipts and calculate cash runway,Pending,Open,Distinguish proposed from committed funds
+Upside,Operational efficiency,,,,Annual operating cost,Recalculate validated efficiency assumptions,Pending,Open,No unsupported savings claims
+Upside,Service utilization,,,,Operating cash flow,Recalculate using verified capacity and price inputs,Pending,Open,Validate market demand first

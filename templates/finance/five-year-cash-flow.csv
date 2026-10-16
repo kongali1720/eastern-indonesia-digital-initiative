@@ -1,0 +1,20 @@
+cash_flow_line,Year_1_IDR,Year_2_IDR,Year_3_IDR,Year_4_IDR,Year_5_IDR,source_or_basis,scenario,notes
+Opening cash balance,,,,,,,Base,Enter verified opening balance
+Equity funding received,,,,,,,Base,Enter only documented drawdowns
+Debt proceeds received,,,,,,,Base,Enter only documented drawdowns
+Grants and donations received,,,,,,,Base,Restricted funding must be tracked separately
+Operating cash receipts,,,,,,,Base,Link to validated operating assumptions
+Total cash inflows,,,,,,,Base,Calculate from inflow lines
+CAPEX paid,,,,,,,Base,Timing of cash payment may differ from approved budget
+Staff and administration OPEX,,,,,,,Base,Use approved staffing plan
+Utilities and connectivity OPEX,,,,,,,Base,Include power cooling water and connectivity
+IT and data center OPEX,,,,,,,Base,Include maintenance licenses and service contracts
+Education and scholarship OPEX,,,,,,,Base,Use approved program and award plans
+Other operating costs,,,,,,,Base,Explain each material category
+Interest and financing costs,,,,,,,Base,Link to verified financing terms
+Debt principal repayment,,,,,,,Base,Use contractual repayment schedule
+Total cash outflows,,,,,,,Base,Calculate from outflow lines
+Net cash movement,,,,,,,Base,Total cash inflows minus total cash outflows
+Closing cash balance,,,,,,,Base,Opening cash plus net cash movement
+Minimum liquidity requirement,,,,,,,Base,Set with finance and operations review
+Funding shortfall or surplus,,,,,,,Base,Closing cash less minimum liquidity requirement

@@ -667,3 +667,23 @@ See the architecture diagrams, KPI dashboard, and implementation dependency
 register linked from the masterplan. All new workstreams remain subject to
 feasibility validation, governance approval, and reconciliation with the
 existing preliminary investment envelope.
+
+---
+
+## Integrated Financial Model
+
+The financial model connects capital expenditure, operating expenditure,
+funding sources, cash flow, and scenario analysis.
+
+- [Integrated Financial Model](docs/25-integrated-financial-model/README.md)
+- [Financial Model Guide](docs/25-integrated-financial-model/model-guide.md)
+- [Financial Assumptions Register](data/assumptions/financial-model-assumptions.csv)
+- [CAPEX and OPEX Plan](templates/finance/capex-opex-plan.csv)
+- [Five-Year Cash Flow Template](templates/finance/five-year-cash-flow.csv)
+- [Scenario Sensitivity Template](templates/finance/scenario-sensitivity.csv)
+- [Funding Register](templates/finance/funding-register.csv)
+- [Financial Control Flow](diagrams/financial-control-flow.mmd)
+
+All figures remain preliminary until independently validated. The IDR 1.1
+trillion data-center allocation is included within the IDR 2.7 trillion
+indicative master investment envelope and must not be double-counted.

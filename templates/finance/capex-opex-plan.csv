@@ -1,0 +1,6 @@
+cost_id,workstream,cost_category,cost_description,cost_type,phase,year,quantity,unit,cost_per_unit_idr,estimated_total_idr,source,status,confidence,approved_budget_idr,actual_spend_idr,variance_idr,owner,notes
+COST-001,Data Center,Infrastructure,To be defined,CAPEX,Feasibility,,,,,,,,Preliminary,Low,,,,Data Center Lead,Included within existing data center allocation; validate detailed scope
+COST-002,Education,Facilities,To be defined,CAPEX,Feasibility,,,,,,,,Preliminary,Low,,,,Education Lead,Reconcile with existing master investment budget
+COST-003,Digital Infrastructure,Network and security,To be defined,CAPEX,Feasibility,,,,,,,,Preliminary,Low,,,,IT Lead,Avoid duplicate allocation across workstreams
+COST-004,Green Energy,Energy and utilities,To be defined,CAPEX,Feasibility,,,,,,,,Preliminary,Low,,,,Engineering Lead,Requires load forecast and engineering study
+COST-005,All Workstreams,Operations,Staff and recurring services,OPEX,Operations,,,,,,,,Open,Low,,,,Finance,Annual costs must be modeled separately from CAPEX
