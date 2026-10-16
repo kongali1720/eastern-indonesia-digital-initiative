@@ -631,3 +631,19 @@ If this initiative supports your research, learning, or digital infrastructure w
 <p align="center">
   <sub>Preliminary feasibility planning document. All assumptions require validation. This document does not constitute a licensing approval, engineering certification, financing commitment, or investment recommendation.</sub>
 </p>
+
+---
+
+## Master Investment Budget
+
+The initiative uses a preliminary master planning envelope of **IDR 2.7 trillion**, including the **IDR 1.1 trillion regional data center allocation**.
+
+All amounts are preliminary planning assumptions, not verified quotations, approved expenditure, committed investment, or confirmed funding. Each workstream is subject to independent feasibility assessment, cost validation, due diligence, funding confirmation, and formal approval.
+
+Detailed budget documentation:
+
+- [Master Investment Budget](docs/18-funding-and-capital/master-investment-budget.md)
+- [Budget Assumptions CSV](data/assumptions/master-investment-budget.csv)
+- [Master Budget Mermaid Diagram](diagrams/master-investment-budget.mmd)
+
+Project implementation will be phased according to milestones, feasibility results, funding availability, and formal investment approval. The university pathway and expansion reserve are long-term planning allocations and must not be treated as immediately approved expenditure.
