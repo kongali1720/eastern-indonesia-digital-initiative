@@ -22,6 +22,10 @@
 </p>
 
 
+### 🔗 Project Links
+
+- 🌐 **[Live Project Website](https://kongali1720.github.io/eastern-indonesia-digital-initiative/)**
+- 📚 **[Project Resources & Documentation](https://kongali1720.github.io/eastern-indonesia-digital-initiative/resources.html)**
 
 
 <p align="center">
