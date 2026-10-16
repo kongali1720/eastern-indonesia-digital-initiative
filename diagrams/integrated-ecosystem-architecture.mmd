@@ -1,0 +1,58 @@
+flowchart TB
+    GOV["Project Governance<br/>Strategy • Finance • Risk • Compliance"]
+
+    subgraph EDU["Education and Talent"]
+        SMA["Technology High School"]
+        COURSE["Digital Skills Institute"]
+        UNI["Higher Education Pathway"]
+        SCH["Scholarships and Talent Development"]
+    end
+
+    subgraph TECH["Digital and Physical Infrastructure"]
+        DC["Regional Data Center"]
+        CLOUD["Cloud and Digital Platforms"]
+        CYBER["Cybersecurity and Data Protection"]
+        ENERGY["Energy and Smart Utilities"]
+        CAMPUS["Smart Campus and Resilience"]
+    end
+
+    subgraph ECON["Innovation and Regional Economy"]
+        INC["Innovation and Startup Incubator"]
+        MSME["MSMEs and Local Industry"]
+        AGRI["Agriculture and Fisheries"]
+        TOUR["Tourism, Logistics and Creative Economy"]
+    end
+
+    GOV --> EDU
+    GOV --> TECH
+    GOV --> ECON
+
+    SMA --> COURSE
+    SMA --> UNI
+    COURSE --> UNI
+    SCH --> SMA
+    SCH --> COURSE
+    SCH --> UNI
+
+    DC --> CLOUD
+    CLOUD --> SMA
+    CLOUD --> COURSE
+    CLOUD --> UNI
+    CYBER -. protects .-> CLOUD
+    CYBER -. protects .-> DC
+    ENERGY --> DC
+    ENERGY --> CAMPUS
+    CAMPUS --> EDU
+
+    UNI --> INC
+    COURSE --> INC
+    INC --> MSME
+    INC --> AGRI
+    INC --> TOUR
+    MSME --> INC
+    AGRI --> INC
+    TOUR --> INC
+
+    ECON -->|"Community needs and feedback"| EDU
+    TECH -->|"Shared services"| EDU
+    TECH -->|"Digital enablement"| ECON

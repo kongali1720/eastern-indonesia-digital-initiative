@@ -1,0 +1,11 @@
+module,kpi,definition,unit,baseline,target,reporting_frequency,data_owner,data_source,status,notes
+Green Energy,Energy intensity,Energy consumed per defined operational unit,kWh/unit,,,,Monthly,,,Proposed KPI
+Digital Infrastructure,Service availability,Measured availability against approved service target,Percent,,,,Monthly,,,Set target after service design
+Cybersecurity,Critical vulnerability remediation,Overdue critical findings under approved policy,Count,,,,Monthly,,,Define severity and remediation SLA
+Innovation Incubator,Projects completing milestones,Projects meeting approved milestone criteria,Percent,,,,Quarterly,,,Track pilot outcomes
+Regional Digital Economy,Active participating organizations,Organizations actively using supported solutions,Count,,,,Quarterly,,,Validate participant records
+Scholarships,Scholarship retention,Recipients continuing under published rules,Percent,,,,Semester,,,Protect student data
+Talent Development,Employment or further-study outcomes,Graduates with verified next-step outcomes,Percent,,,,Annual,,,Define measurement period
+Smart Campus,Preventive maintenance completion,Completed scheduled maintenance tasks,Percent,,,,Monthly,,,Use approved maintenance plan
+Resilience,Continuity test completion,Completed tests against approved continuity plan,Percent,,,,Quarterly,,,Record corrective actions
+Governance,Budget variance,Actual expenditure compared with approved budget,Percent,,,,Monthly,,,Finance owner validates data

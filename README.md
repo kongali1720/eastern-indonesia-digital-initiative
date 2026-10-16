@@ -647,3 +647,23 @@ Detailed budget documentation:
 - [Master Budget Mermaid Diagram](diagrams/master-investment-budget.mmd)
 
 Project implementation will be phased according to milestones, feasibility results, funding availability, and formal investment approval. The university pathway and expansion reserve are long-term planning allocations and must not be treated as immediately approved expenditure.
+
+---
+
+## Integrated Ecosystem Masterplan
+
+The initiative is designed as a connected ecosystem spanning education,
+digital infrastructure, regional economic development, and campus resilience.
+
+- [Integrated Ecosystem Masterplan](docs/integrated-ecosystem-masterplan.md)
+- [Green Energy and Smart Utilities](docs/19-green-energy-and-utilities/README.md)
+- [Digital Infrastructure and Cybersecurity](docs/20-digital-infrastructure-and-cybersecurity/README.md)
+- [Innovation and Startup Incubator](docs/21-innovation-and-startup-incubator/README.md)
+- [Regional Digital Economy](docs/22-regional-digital-economy/README.md)
+- [Scholarship and Talent Development](docs/23-scholarship-and-talent-development/README.md)
+- [Smart Campus and Regional Resilience](docs/24-smart-campus-and-resilience/README.md)
+
+See the architecture diagrams, KPI dashboard, and implementation dependency
+register linked from the masterplan. All new workstreams remain subject to
+feasibility validation, governance approval, and reconciliation with the
+existing preliminary investment envelope.

@@ -1,0 +1,26 @@
+flowchart TD
+    A["Feasibility, Demand and Site Validation"]
+    B["Governance, Legal and Funding Approval"]
+    C["Utilities and Connectivity Assessment"]
+    D["Education Program and Curriculum Design"]
+    E["Digital Architecture and Security Design"]
+    F["Pilot Education and Skills Programs"]
+    G["Incubator and Regional Industry Pilots"]
+    H["Campus and Data Center Development"]
+    I["Operations, KPI Review and Expansion Decision"]
+
+    A --> B
+    A --> C
+    A --> D
+    B --> C
+    B --> D
+    C --> E
+    D --> F
+    E --> F
+    F --> G
+    C --> H
+    E --> H
+    G --> I
+    H --> I
+    F --> I
+    I -->|"Evidence-based decision"| B

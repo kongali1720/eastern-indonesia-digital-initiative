@@ -1,0 +1,10 @@
+dependency_id,workstream,dependency,dependency_owner,required_evidence,priority,status,target_date,decision_reference,notes
+DEP-001,Green Energy,Facility load forecast,Engineering,Approved load forecast,High,Not Started,,,Required before utility sizing
+DEP-002,Digital Infrastructure,Connectivity and service requirements,IT,Approved architecture and service requirements,High,Not Started,,,Validate bandwidth and resilience
+DEP-003,Cybersecurity,Data classification and access model,Security,Approved data classification and access policy,High,Not Started,,,Required before production deployment
+DEP-004,Education,Market demand and curriculum validation,Education,Stakeholder interviews and curriculum review,High,Not Started,,,Validate student and employer needs
+DEP-005,Incubator,Qualified mentors and pilot partners,Program Lead,Documented partner commitments,Medium,Not Started,,,Do not assume partners are committed
+DEP-006,Regional Economy,Community needs assessment,Regional Partnerships,Consultation and pilot selection report,High,Not Started,,,Community-led validation
+DEP-007,Scholarships,Approved scholarship funding,Finance,Approved funding and award policy,High,Not Started,,,No unfunded award commitments
+DEP-008,Smart Campus,Site hazard and environmental studies,Engineering,Qualified site assessment,High,Not Started,,,Required before final site decisions
+DEP-009,All Workstreams,Approved master budget and governance gates,Project Governance,Authorized budget and decision records,High,Not Started,,,Reconcile with existing IDR 2.7T planning envelope
