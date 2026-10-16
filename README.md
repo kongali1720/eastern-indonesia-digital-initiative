@@ -21,6 +21,51 @@
   <a href="https://github.com/kongali1720">GitHub Profile</a>
 </p>
 
+
+
+
+<p align="center">
+  <img
+    src="https://raw.githubusercontent.com/kongali1720/eastern-indonesia-digital-initiative/main/Inisiatif%20Pendidikan%20Digital%20Indonesia%20Timur.png"
+    width="100%"
+    alt="Conceptual masterplan for the Eastern Indonesia Digital Education and Data Center Initiative"
+  />
+</p>
+
+<h1 align="center">Eastern Indonesia Digital Education & Data Center Initiative</h1>
+
+<p align="center">
+  <strong>SMA Teknologi • Lembaga Kursus Digital • Universitas Masa Depan • Infrastruktur Digital</strong>
+</p>
+
+<p align="center">
+  Gowa, Sulawesi Selatan, Indonesia
+</p>
+
+<p align="center">
+  <em>Conceptual Masterplan — Proposed Development, Subject to Feasibility, Funding, and Regulatory Approval</em>
+</p>
+
+---
+
+## Project Vision
+
+The Eastern Indonesia Digital Education & Data Center Initiative is a
+proposed phased development program focused on technology-oriented
+secondary education, practical digital-skills training, and a potential
+future university pathway in Eastern Indonesia.
+
+The initial priority is the feasibility and development planning of
+SMA IT in Gowa, followed by the potential establishment of a digital
+skills course institution. A university pathway and regional data center
+will be assessed as separate workstreams with independent feasibility,
+governance, and funding decisions.
+
+> **Planning principle:** Build the education foundation first, validate
+> demand and financial sustainability, and expand only when the required
+> evidence, funding, and approvals are in place.
+
+
 ## 1. Project Overview
 
 The Eastern Indonesia Digital Education & Data Center Initiative is a proposed long-term development program to establish an IT-focused senior high school, a technology higher-education pathway, and a regional digital infrastructure ecosystem in South Sulawesi, Indonesia.
