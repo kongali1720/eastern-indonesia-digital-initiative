@@ -1,1 +1,9 @@
 risk_id,category,description,likelihood,impact,status,owner,due_date
+RSK-01,Feasibility,Project feasibility and demand validation incomplete,3,5,open,Unassigned,
+RSK-02,Funding,Funding availability and evidence not independently verified,4,5,open,Unassigned,
+RSK-03,Regulatory,Education data center and business licensing requirements not yet confirmed,3,5,open,Unassigned,
+RSK-04,Infrastructure,Site power connectivity and resilience feasibility not yet validated,3,5,open,Unassigned,
+RSK-05,Financial,Capital expenditure and operating cost assumptions require validation,4,5,open,Unassigned,
+RSK-06,Governance,Workstream owners milestones and reporting cadence not yet approved,3,4,open,Unassigned,
+RSK-07,Cybersecurity,Security architecture and operational controls not yet assessed,3,5,open,Unassigned,
+RSK-08,Procurement,Procurement strategy and vendor due diligence not yet established,3,4,open,Unassigned

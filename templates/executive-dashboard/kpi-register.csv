@@ -1,1 +1,9 @@
 kpi_id,kpi_name,unit,target,actual,status,reporting_period,owner
+KPI-01,Workstreams with assigned accountable owner,percent,,,proposed,,PMO Lead
+KPI-02,Milestones completed on time,percent,,,proposed,,PMO Lead
+KPI-03,Budget variance,percent,,,proposed,,Finance Lead
+KPI-04,Funding received and reconciled,IDR,,,proposed,,Finance Lead
+KPI-05,High-priority risks with active mitigation,percent,,,proposed,,Risk Lead
+KPI-06,Overdue executive decisions,count,,,proposed,,PMO Lead
+KPI-07,Education demand assessment completion,percent,,,proposed,,Education Workstream Lead
+KPI-08,Data center feasibility assessment completion,percent,,,proposed,,Infrastructure Workstream Lead

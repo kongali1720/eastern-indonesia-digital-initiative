@@ -1,1 +1,11 @@
 decision_id,decision,owner,status,due_date
+DEC-01,Approve project governance structure and accountable workstream owners,Executive Sponsor,pending,
+DEC-02,Authorize feasibility study scope and budget,Executive Sponsor,pending,
+DEC-03,Approve site assessment criteria for Gowa candidate location,Project Steering Committee,pending,
+DEC-04,Approve education demand and stakeholder assessment,Education Workstream Lead,pending,
+DEC-05,Approve data center demand power connectivity and site feasibility study,Infrastructure Workstream Lead,pending,
+DEC-06,Review and approve financial model assumptions,Finance Lead,pending,
+DEC-07,Confirm funding verification and investor due diligence process,Finance Lead,pending,
+DEC-08,Approve enterprise risk owners and mitigation review cadence,Project Steering Committee,pending,
+DEC-09,Approve procurement and vendor due diligence framework,Procurement Lead,pending,
+DEC-10,Approve KPI definitions reporting cadence and evidence requirements,PMO Lead,pending,

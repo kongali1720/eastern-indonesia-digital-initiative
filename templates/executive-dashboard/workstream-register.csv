@@ -1,1 +1,13 @@
 workstream_id,workstream,owner,status,planned_progress_pct,actual_progress_pct,baseline_start,forecast_finish,blocker
+WS-01,Project governance and PMO,Unassigned,proposed,,,,,Owner and baseline approval required
+WS-02,Education institution planning,Unassigned,proposed,,,,,Feasibility and education licensing review required
+WS-03,Digital skills and training,Unassigned,proposed,,,,,Curriculum and operating model required
+WS-04,Higher education pathway,Unassigned,proposed,,,,,Academic partner and regulatory pathway required
+WS-05,Data center feasibility and design,Unassigned,proposed,,,,,Demand power connectivity and site studies required
+WS-06,Green energy and resilience,Unassigned,proposed,,,,,Load forecast and energy feasibility required
+WS-07,Digital infrastructure and cybersecurity,Unassigned,proposed,,,,,Architecture security requirements and budget required
+WS-08,Startup incubator,Unassigned,proposed,,,,,Operating model and partner validation required
+WS-09,Regional digital economy,Unassigned,proposed,,,,,Market assessment and stakeholder engagement required
+WS-10,Scholarship and inclusion program,Unassigned,proposed,,,,,Eligibility funding source and governance required
+WS-11,Integrated financial model,Unassigned,proposed,,,,,Assumptions and independent validation required
+WS-12,Enterprise risk and assurance,Unassigned,proposed,,,,,Risk owners and control evidence required
