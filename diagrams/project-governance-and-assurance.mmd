@@ -1,0 +1,18 @@
+flowchart TD
+    SP["Project Sponsor / Authorized Governance"]
+    PMO["Project Management Office"]
+    OWN["Workstream Owners"]
+    FIN["Finance and Budget Control"]
+    RISK["Risk and Control Owners"]
+    AUDIT["Independent Audit / Assurance"]
+
+    SP -->|"Mandate, decisions and tolerances"| PMO
+    PMO -->|"Schedule, reporting and escalation"| OWN
+    OWN -->|"Status, evidence and issues"| PMO
+    OWN -->|"Risk ownership and control operation"| RISK
+    FIN -->|"Budget and cash-flow reconciliation"| PMO
+    RISK -->|"Risk exposure and control exceptions"| SP
+    PMO -->|"Consolidated performance report"| SP
+    AUDIT -. "Independent testing and findings" .-> OWN
+    AUDIT -. "Independent assurance report" .-> SP
+    AUDIT -. "Follow-up validation" .-> RISK

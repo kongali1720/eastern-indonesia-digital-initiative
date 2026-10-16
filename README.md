@@ -687,3 +687,23 @@ funding sources, cash flow, and scenario analysis.
 All figures remain preliminary until independently validated. The IDR 1.1
 trillion data-center allocation is included within the IDR 2.7 trillion
 indicative master investment envelope and must not be double-counted.
+
+---
+
+## Project Management, Risk & Internal Audit
+
+The initiative uses a proposed governance framework to coordinate
+delivery, monitor risks, document decisions, and improve accountability.
+
+- [Project Management Office](docs/26-project-management-office/README.md)
+- [Project Controls](docs/26-project-management-office/project-controls.md)
+- [Stage-Gate Framework](docs/26-project-management-office/stage-gate-framework.md)
+- [Change Control](docs/26-project-management-office/change-control.md)
+- [Enterprise Risk & Internal Audit](docs/27-enterprise-risk-and-audit/README.md)
+- [Risk Management Framework](docs/27-enterprise-risk-and-audit/risk-management-framework.md)
+- [Internal Controls](docs/27-enterprise-risk-and-audit/internal-controls.md)
+- [Audit & Assurance](docs/27-enterprise-risk-and-audit/audit-and-assurance.md)
+- [Governance Diagram](diagrams/project-governance-and-assurance.mmd)
+
+The framework remains proposed until roles, approval authorities,
+risk tolerances, and reporting lines are formally approved.
